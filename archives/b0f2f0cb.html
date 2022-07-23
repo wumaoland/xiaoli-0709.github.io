@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>力扣学习记录（八）——图像渲染 | 寐烯的小屋</title><meta name="keywords" content="力扣,广度优先算法,深度优先算法"><meta name="author" content="寐 烯"><meta name="copyright" content="寐 烯"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、题目 有一幅以 m x n 的二维整数数组表示的图画 image ，其中 image[i][j] 表示该图画的像素值大小。 你也被给予三个整数 sr , sc 和 newColor 。你应该从像素 image[sr][sc] 开始对图像进行 上色填充 。 为了完成 上色工作 ，从初始像素开始，记录初始坐标的 上下左右四个方向上 像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="力扣学习记录（八）——图像渲染">
+<meta property="og:url" content="http://1538272824@qq.com/archives/b0f2f0cb.html">
+<meta property="og:site_name" content="寐烯的小屋">
+<meta property="og:description" content="一、题目 有一幅以 m x n 的二维整数数组表示的图画 image ，其中 image[i][j] 表示该图画的像素值大小。 你也被给予三个整数 sr , sc 和 newColor 。你应该从像素 image[sr][sc] 开始对图像进行 上色填充 。 为了完成 上色工作 ，从初始像素开始，记录初始坐标的 上下左右四个方向上 像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://1538272824@qq.com/img/articel10.jpeg">
+<meta property="article:published_time" content="2022-07-23T05:04:02.000Z">
+<meta property="article:modified_time" content="2022-07-23T06:14:40.347Z">
+<meta property="article:author" content="寐 烯">
+<meta property="article:tag" content="力扣">
+<meta property="article:tag" content="广度优先算法">
+<meta property="article:tag" content="深度优先算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://1538272824@qq.com/img/articel10.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://1538272824@qq.com/archives/b0f2f0cb"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-sRJNgwIWWn"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '力扣学习记录（八）——图像渲染',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-23 14:14:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/icon_head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/articel10.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">寐烯的小屋</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 视频</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">力扣学习记录（八）——图像渲染</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-23T05:04:02.000Z" title="发表于 2022-07-23 13:04:02">2022-07-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-23T06:14:40.347Z" title="更新于 2022-07-23 14:14:40">2022-07-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="力扣学习记录（八）——图像渲染"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="一题目">一、题目</h4>
+<p>有一幅以 m x n 的二维整数数组表示的图画 image ，其中 image[i][j] 表示该图画的像素值大小。</p>
+<p>你也被给予三个整数 sr , sc 和 newColor 。你应该从像素 image[sr][sc] 开始对图像进行 上色填充 。</p>
+<p>为了完成 上色工作 ，从初始像素开始，记录初始坐标的 上下左右四个方向上 像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应 四个方向上 像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为 newColor 。</p>
+<p>最后返回 经过上色渲染后的图像 。</p>
+<blockquote>
+<p>输入: image = [[1,1,1],[1,1,0],[1,0,1]]，sr = 1, sc = 1, newColor = 2</p>
+<p>输出: [[2,2,2],[2,2,0],[2,0,1]]</p>
+<p>解析: 在图像的正中间，(坐标(sr,sc)=(1,1)),在路径上所有符合条件的像素点的颜色都被更改成2。</p>
+<p>注意，右下角的像素没有更改为2，因为它不是在上下左右四个方向上与初始点相连的像素点。</p>
+</blockquote>
+<h4 id="二解答">二、解答</h4>
+<p>该题的关键在于找到需要进行颜色更改的坐标，可以通过广度优先搜索和深度优先搜索进行。</p>
+<h5 id="广度优先搜索">2.1 广度优先搜索</h5>
+<p>给定一个队列，每次搜索到一个放个，如果其与初始位置方格颜色相同，就将其加入队列，并更新该方格颜色，防止重复入队。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这道题有一个很巧妙的点在与如何去搜索上下左右4个位置，可以预先定义两个数组dx,dy用于表示上下左右。然后每次需要进行搜索时，将原坐标加上dx,dy值即可表示方向。通过一个for循环将所有情况都涵盖到。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> dx[<span class="number">4</span>] = &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>&#125;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> dy[<span class="number">4</span>] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)&#123;</span><br><span class="line">	<span class="type">int</span> mx = x + dx[i], my = y + dy[i];</span><br><span class="line">    <span class="comment">// 当mx不满足0&lt;mx&lt;图片长度时，表明此时已数组越界，不需要考虑。</span></span><br><span class="line">	<span class="keyword">if</span> (mx &gt;= <span class="number">0</span> &amp;&amp; mx &lt; n &amp;&amp; my &gt;= <span class="number">0</span> &amp;&amp; my &lt; m &amp;&amp; image[mx][my] == curColor) &#123;</span><br><span class="line">    <span class="comment">// 每次满足条件，则向队列中添加元素。</span></span><br><span class="line">		q.<span class="built_in">emplace</span>(mx, my);</span><br><span class="line">		image[mx][my] = newColor;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，我们只需遍历整个队列即可，满足条件的，进入队列，每次进入后，将该位置颜色更改，然后出队。</p>
+<p>下面是广度优先算法的完整算法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">floodFill</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> sr, <span class="type">int</span> sc, <span class="type">int</span> newColor) &#123;</span><br><span class="line">		<span class="type">int</span> curColor = image[sr][sc]; <span class="comment">// 定义变量颜色，记录最原初位置的颜色。</span></span><br><span class="line">		<span class="keyword">if</span> (curColor == newColor)</span><br><span class="line">			<span class="keyword">return</span> image;             <span class="comment">// 如果目标颜色和初始颜色相同，直接返回。</span></span><br><span class="line">		<span class="type">int</span> n = image.<span class="built_in">size</span>(), m = image[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">		queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; q;      <span class="comment">// 定义一个队列用于保存需要进行更改颜色的坐标值。</span></span><br><span class="line">		q.<span class="built_in">emplace</span>(sr, sc);            <span class="comment">// 原始节点入队</span></span><br><span class="line">		image[sr][sc] = newColor;     <span class="comment">// 更新颜色</span></span><br><span class="line">		<span class="keyword">while</span> (!q.<span class="built_in">empty</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> x = q.<span class="built_in">front</span>().first, y = q.<span class="built_in">front</span>().second; <span class="comment">// 取出第一个需要修改的坐标。</span></span><br><span class="line">			q.<span class="built_in">pop</span>();                                       <span class="comment">// 出队</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">int</span> mx = x + dx[i], my = y + dy[i];</span><br><span class="line">				<span class="keyword">if</span> (mx &gt;= <span class="number">0</span> &amp;&amp; mx &lt; n &amp;&amp; my &gt;= <span class="number">0</span> &amp;&amp; my &lt; m &amp;&amp; image[mx][my] == curColor) &#123;</span><br><span class="line">					q.<span class="built_in">emplace</span>(mx, my);</span><br><span class="line">					image[mx][my] = newColor;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> image;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="深度优先算法">2.2 深度优先算法</h5>
+<p>我们从给定的起点开始，进行深度优先搜索。每次搜索到一个方格时，如果其与初始位置的方格颜色相同，就将该方格的颜色更新，以防止重复搜索；如果不相同，则进行回溯。</p>
+<p>关键在于dfs的实现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> color, <span class="type">int</span> newColor)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (image[x][y] == color) &#123;</span><br><span class="line">		image[x][y] = newColor;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">			<span class="type">int</span> mx = x + dx[i], my = y + dy[i];</span><br><span class="line">			<span class="keyword">if</span> (mx &gt;= <span class="number">0</span> &amp;&amp; mx &lt; image.<span class="built_in">size</span>() &amp;&amp; my &gt;= <span class="number">0</span> &amp;&amp; my &lt; image[<span class="number">0</span>].<span class="built_in">size</span>()) &#123;</span><br><span class="line">				<span class="built_in">dfs</span>(image, mx, my, color, newColor);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">floodFill</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> sr, <span class="type">int</span> sc, <span class="type">int</span> newColor) &#123;</span><br><span class="line">	<span class="type">int</span> currColor = image[sr][sc];</span><br><span class="line">	<span class="keyword">if</span> (currColor != newColor) &#123;</span><br><span class="line">		<span class="built_in">dfs</span>(image, sr, sc, currColor, newColor);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三完整的测试代码">三、完整的测试代码</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> dx[<span class="number">4</span>] = &#123; <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span> &#125;;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> dy[<span class="number">4</span>] = &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">-1</span>, <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> color, <span class="type">int</span> newColor)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (image[x][y] == color) &#123;</span><br><span class="line">			image[x][y] = newColor;</span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">				<span class="type">int</span> mx = x + dx[i], my = y + dy[i];</span><br><span class="line">				<span class="keyword">if</span> (mx &gt;= <span class="number">0</span> &amp;&amp; mx &lt; image.<span class="built_in">size</span>() &amp;&amp; my &gt;= <span class="number">0</span> &amp;&amp; my &lt; image[<span class="number">0</span>].<span class="built_in">size</span>()) &#123;</span><br><span class="line">					<span class="built_in">dfs</span>(image, mx, my, color, newColor);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">floodFill</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> sr, <span class="type">int</span> sc, <span class="type">int</span> newColor) &#123;</span><br><span class="line">		<span class="type">int</span> currColor = image[sr][sc];</span><br><span class="line">		<span class="keyword">if</span> (currColor != newColor) &#123;</span><br><span class="line">			<span class="built_in">dfs</span>(image, sr, sc, currColor, newColor);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> image;</span><br><span class="line">	&#125;</span><br><span class="line">	vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">floodFill2</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; image, <span class="type">int</span> sr, <span class="type">int</span> sc, <span class="type">int</span> newColor) &#123;</span><br><span class="line">		<span class="type">int</span> curColor = image[sr][sc]; <span class="comment">// 定义变量颜色，记录最原初位置的颜色。</span></span><br><span class="line">		<span class="keyword">if</span> (curColor == newColor)</span><br><span class="line">			<span class="keyword">return</span> image;             <span class="comment">// 如果目标颜色和初始颜色相同，直接返回。</span></span><br><span class="line">		<span class="type">int</span> n = image.<span class="built_in">size</span>(), m = image[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">		queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; q;      <span class="comment">// 定义一个队列用于保存需要进行更改颜色的坐标值。</span></span><br><span class="line">		q.<span class="built_in">emplace</span>(sr, sc);            <span class="comment">// 原始节点入队</span></span><br><span class="line">		image[sr][sc] = newColor;     <span class="comment">// 更新颜色</span></span><br><span class="line">		<span class="keyword">while</span> (!q.<span class="built_in">empty</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> x = q.<span class="built_in">front</span>().first, y = q.<span class="built_in">front</span>().second; <span class="comment">// 取出第一个需要修改的坐标。</span></span><br><span class="line">			q.<span class="built_in">pop</span>();                                       <span class="comment">// 出队</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="type">int</span> mx = x + dx[i], my = y + dy[i];</span><br><span class="line">				<span class="keyword">if</span> (mx &gt;= <span class="number">0</span> &amp;&amp; mx &lt; n &amp;&amp; my &gt;= <span class="number">0</span> &amp;&amp; my &lt; m &amp;&amp; image[mx][my] == curColor) &#123;</span><br><span class="line">					q.<span class="built_in">emplace</span>(mx, my);</span><br><span class="line">					image[mx][my] = newColor;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> image;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; image&#123; &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>&#125; &#125;;</span><br><span class="line">	<span class="type">int</span> sr = <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> sc = <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> newColor = <span class="number">3</span>;</span><br><span class="line">	Solution a;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;原先的image数组：&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; image.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; image[<span class="number">0</span>].<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">			cout&lt;&lt;image[i][j] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	a.<span class="built_in">floodFill2</span>(image, sr, sc, newColor);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;渲染后的image数组：&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; image.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; image[<span class="number">0</span>].<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">			cout &lt;&lt; image[i][j]&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出结果：</p>
+<img src="/archives/undefined/1.png" class title="test">
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://1538272824@qq.com">寐 烯</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://1538272824@qq.com/archives/b0f2f0cb.html">http://1538272824@qq.com/archives/b0f2f0cb.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://1538272824@qq.com" target="_blank">寐烯的小屋</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8A%9B%E6%89%A3/">力扣</a><a class="post-meta__tags" href="/tags/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95/">广度优先算法</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95/">深度优先算法</a></div><div class="post_share"><div class="social-share" data-image="/img/articel10.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/archives/ad6ffe5f.html"><img class="next-cover" src="/img/articel9.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">力扣刷题记录（六）——合并两个有序数组</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/63f0ebc.html" title="力扣刷题记录--删除排序数组中的重复项（一）"><img class="cover" src="/img/shaonv.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-11</div><div class="title">力扣刷题记录--删除排序数组中的重复项（一）</div></div></a></div><div><a href="/archives/ad6ffe5f.html" title="力扣刷题记录（六）——合并两个有序数组"><img class="cover" src="/img/articel9.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-19</div><div class="title">力扣刷题记录（六）——合并两个有序数组</div></div></a></div><div><a href="/archives/450e05df.html" title="力扣刷题记录（三）——旋转数组"><img class="cover" src="/img/article4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="title">力扣刷题记录（三）——旋转数组</div></div></a></div><div><a href="/archives/ba8348d6.html" title="力扣刷题记录（五）——位运算"><img class="cover" src="/img/article6.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-13</div><div class="title">力扣刷题记录（五）——位运算</div></div></a></div><div><a href="/archives/d710a438.html" title="力扣刷题记录（二）——买卖股票的最佳时机II"><img class="cover" src="/img/article3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-12</div><div class="title">力扣刷题记录（二）——买卖股票的最佳时机II</div></div></a></div><div><a href="/archives/7fa52343.html" title="力扣刷题记录（六）——有序数组的平方"><img class="cover" src="/img/article8.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-17</div><div class="title">力扣刷题记录（六）——有序数组的平方</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/icon_head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">寐 烯</div><div class="author-info__description">过于低调~</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">一、题目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E8%A7%A3%E7%AD%94"><span class="toc-number">2.</span> <span class="toc-text">二、解答</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 广度优先搜索</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 深度优先算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%AE%8C%E6%95%B4%E7%9A%84%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">三、完整的测试代码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/archives/b0f2f0cb.html" title="力扣学习记录（八）——图像渲染"><img src="/img/articel10.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力扣学习记录（八）——图像渲染"/></a><div class="content"><a class="title" href="/archives/b0f2f0cb.html" title="力扣学习记录（八）——图像渲染">力扣学习记录（八）——图像渲染</a><time datetime="2022-07-23T05:04:02.000Z" title="发表于 2022-07-23 13:04:02">2022-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/ad6ffe5f.html" title="力扣刷题记录（六）——合并两个有序数组"><img src="/img/articel9.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力扣刷题记录（六）——合并两个有序数组"/></a><div class="content"><a class="title" href="/archives/ad6ffe5f.html" title="力扣刷题记录（六）——合并两个有序数组">力扣刷题记录（六）——合并两个有序数组</a><time datetime="2022-07-19T02:25:40.000Z" title="发表于 2022-07-19 10:25:40">2022-07-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/7fa52343.html" title="力扣刷题记录（六）——有序数组的平方"><img src="/img/article8.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力扣刷题记录（六）——有序数组的平方"/></a><div class="content"><a class="title" href="/archives/7fa52343.html" title="力扣刷题记录（六）——有序数组的平方">力扣刷题记录（六）——有序数组的平方</a><time datetime="2022-07-17T04:24:18.000Z" title="发表于 2022-07-17 12:24:18">2022-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/130a033f.html" title="C++学习记录（一）"><img src="/img/article7.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++学习记录（一）"/></a><div class="content"><a class="title" href="/archives/130a033f.html" title="C++学习记录（一）">C++学习记录（一）</a><time datetime="2022-07-13T13:07:14.000Z" title="发表于 2022-07-13 21:07:14">2022-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/ba8348d6.html" title="力扣刷题记录（五）——位运算"><img src="/img/article6.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="力扣刷题记录（五）——位运算"/></a><div class="content"><a class="title" href="/archives/ba8348d6.html" title="力扣刷题记录（五）——位运算">力扣刷题记录（五）——位运算</a><time datetime="2022-07-13T02:46:39.000Z" title="发表于 2022-07-13 10:46:39">2022-07-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 寐 烯</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
